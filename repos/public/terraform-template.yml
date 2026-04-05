@@ -1,0 +1,13 @@
+terraform-template:
+  description: "Opinionated Terraform project template with CI/CD, validation, and infrastructure-as-code best practices."
+  visibility: "public"
+  is_template: true
+  topics:
+    - terraform
+    - template
+    - project-template
+    - infrastructure-as-code
+    - ci-cd
+    - devsecops
+    - best-practices
+    - hashicorp
