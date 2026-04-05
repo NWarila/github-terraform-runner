@@ -46,10 +46,11 @@ jobs:
 
       - name: 'Download Private Repo Definitions from S3'
         run: |
-          aws s3 cp \
-            "s3://${{ secrets.AWS_S3_BUCKET }}/${{ github.event.repository.name }}/repos/" \
-            "${{ github.workspace }}/${{ github.event.repository.name }}/repos/private/" \
-            --recursive --no-progress
+          DEST="${{ github.workspace }}/${{ github.event.repository.name }}/repos/private"
+          SRC="s3://${{ secrets.AWS_S3_BUCKET }}/${{ github.event.repository.name }}/repos"
+          mkdir -p "$DEST"
+          aws s3 cp "$SRC/Resume.yml"        "$DEST/Resume.yml"
+          aws s3 cp "$SRC/github-sandbox.yml" "$DEST/github-sandbox.yml"
 
       - name: 'Assemble Workspace'
         run: |
