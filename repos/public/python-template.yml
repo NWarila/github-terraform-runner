@@ -1,0 +1,12 @@
+python-template:
+  description: "Opinionated Python project template with CI/CD, linting, testing, and packaging best practices."
+  visibility: "public"
+  is_template: true
+  topics:
+    - python
+    - template
+    - project-template
+    - cookiecutter
+    - ci-cd
+    - devsecops
+    - best-practices

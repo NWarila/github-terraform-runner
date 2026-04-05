@@ -1,0 +1,76 @@
+name: Terraform Apply
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "repos/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  GITHUB_OWNER: NWarila
+  TF_VAR_github_owner: NWarila
+  TF_VAR_github_token: ${{ secrets.GH_TERRAFORM_TOKEN }}
+  FRAMEWORK_REPO: nwarila-platform/github-terraform-framework
+  FRAMEWORK_REF: main
+
+jobs:
+  terraform:
+    name: Terraform Plan & Apply
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout runner repo (repo YAMLs + state)
+        uses: actions/checkout@v4
+
+      - name: Checkout Terraform framework
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.FRAMEWORK_REPO }}
+          ref: ${{ env.FRAMEWORK_REF }}
+          path: framework
+          token: ${{ secrets.GH_TERRAFORM_TOKEN }}
+
+      - name: Assemble workspace
+        run: |
+          # Copy repo YAMLs into the framework's repos directory
+          cp -r repos/public/* framework/terraform/repos/public/ 2>/dev/null || true
+          cp -r repos/private/* framework/terraform/repos/private/ 2>/dev/null || true
+
+          # Copy state file into the framework's terraform directory if it exists
+          if [ -f terraform.tfstate ]; then
+            cp terraform.tfstate framework/terraform/terraform.tfstate
+          fi
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.14.3"
+
+      - name: Terraform Init
+        working-directory: framework/terraform
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: framework/terraform
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        working-directory: framework/terraform
+        run: terraform apply -auto-approve tfplan
+
+      - name: Save state back to runner repo
+        run: |
+          cp framework/terraform/terraform.tfstate terraform.tfstate
+          cp framework/terraform/terraform.tfstate.backup terraform.tfstate.backup 2>/dev/null || true
+
+      - name: Commit updated state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add terraform.tfstate terraform.tfstate.backup
+          git diff --cached --quiet || git commit -m "Update Terraform state [skip ci]"
+          git push

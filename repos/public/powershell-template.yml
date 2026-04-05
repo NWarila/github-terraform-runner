@@ -1,0 +1,13 @@
+powershell-template:
+  description: "Opinionated PowerShell module/script template with CI/CD, Pester testing, and packaging best practices."
+  visibility: "public"
+  is_template: true
+  topics:
+    - powershell
+    - template
+    - project-template
+    - ci-cd
+    - pester
+    - devsecops
+    - best-practices
+    - windows

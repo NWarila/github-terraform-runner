@@ -1,0 +1,14 @@
+packer-template:
+  description: "Opinionated Packer project template with CI/CD, validation, and image-building best practices."
+  visibility: "public"
+  is_template: true
+  topics:
+    - packer
+    - template
+    - project-template
+    - infrastructure-as-code
+    - ci-cd
+    - devsecops
+    - best-practices
+    - hashicorp
+    - image-building
