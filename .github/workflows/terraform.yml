@@ -44,6 +44,13 @@ jobs:
           ref: 'main'
           path: 'github-terraform-framework'
 
+      - name: 'Download Private Repo Definitions from S3'
+        run: |
+          aws s3 cp \
+            "s3://${{ secrets.AWS_S3_BUCKET }}/${{ github.event.repository.name }}/repos/" \
+            "${{ github.workspace }}/${{ github.event.repository.name }}/repos/private/" \
+            --recursive
+
       - name: 'Assemble Workspace'
         run: |
           cp -r "${{ github.workspace }}/${{ github.event.repository.name }}/repos/public/"*  "${{ github.workspace }}/github-terraform-framework/terraform/repos/public/"  2>/dev/null || true
