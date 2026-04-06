@@ -49,6 +49,7 @@ jobs:
           DEST="${{ github.workspace }}/${{ github.event.repository.name }}/repos/private"
           SRC="s3://${{ secrets.AWS_S3_BUCKET }}/nwarila/${{ github.event.repository.name }}/repos"
           mkdir -p "$DEST"
+          aws s3 cp "$SRC/Personal.yml"       "$DEST/Personal.yml"
           aws s3 cp "$SRC/Resume.yml"        "$DEST/Resume.yml"
           aws s3 cp "$SRC/github-sandbox.yml" "$DEST/github-sandbox.yml"
 
