@@ -86,11 +86,15 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Find every state address whose for_each key is exactly
-          # "terraform-template". The grep pattern matches `["terraform-template"]`
-          # specifically, so it does NOT match `["terraform-template-template"]`
-          # or any partial substring.
-          old_addrs="$(terraform state list 2>/dev/null | grep -E '\["terraform-template"\]' || true)"
+          # Find every state address whose for_each key starts with
+          # "terraform-template" (catches both the bare key and constructed
+          # keys like "terraform-template-rules-0"). Then filter out any
+          # already-rebound entries that include "terraform-template-template"
+          # so re-runs are idempotent.
+          old_addrs="$(terraform state list 2>/dev/null \
+            | grep -E '\["terraform-template[^"]*"\]' \
+            | grep -v 'terraform-template-template' \
+            || true)"
 
           if [ -z "${old_addrs}" ]; then
             echo "::notice::No state entries with key [\"terraform-template\"] remain — already rebound or never present. Exiting clean."
@@ -101,8 +105,13 @@ jobs:
           printf '  %s\n' ${old_addrs}
           echo ""
 
+          # Replace the unquoted `terraform-template` prefix (right after the
+          # opening `["`) with `terraform-template-template`, leaving any
+          # suffix intact:
+          #   ["terraform-template"]          -> ["terraform-template-template"]
+          #   ["terraform-template-rules-0"]  -> ["terraform-template-template-rules-0"]
           while IFS= read -r old_addr; do
-            new_addr="${old_addr/\"terraform-template\"/\"terraform-template-template\"}"
+            new_addr="${old_addr/\"terraform-template/\"terraform-template-template}"
             echo "::group::${old_addr} -> ${new_addr}"
             terraform state mv "${old_addr}" "${new_addr}"
             echo "::endgroup::"
