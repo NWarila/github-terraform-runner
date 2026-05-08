@@ -38,7 +38,7 @@ concurrency:
 
 jobs:
   deploy:
-    uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@40d21e78004ae11e3a2cb4b2d9319643e114743b
+    uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@5852ce54d5f217224fe55ccf8ff483517d3222d7
     with:
       github_owner: ${{ github.repository_owner }}
       # renovate: datasource=github-releases depName=hashicorp/terraform extractVersion=^v(?<version>.*)$ versioning=hashicorp
@@ -48,4 +48,4 @@ jobs:
       aws_role_arn: ${{ secrets.AWS_ROLE_TO_ASSUME }}
       aws_region: ${{ secrets.AWS_REGION }}
       backend_bucket: ${{ secrets.AWS_S3_BUCKET }}
-      github_token: ${{ secrets.FINE_GRAINED_PERSONAL_ACCESS_TOKEN }}
+      gh_token: ${{ secrets.FINE_GRAINED_PERSONAL_ACCESS_TOKEN }}
