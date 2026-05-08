@@ -88,6 +88,7 @@
 !/repos/public/packer-template.yml
 !/repos/public/powershell-template.yml
 !/repos/public/python-template.yml
+!/repos/public/terraform-runner-template.yml
 !/repos/public/terraform-template.yml
 !/repos/private/
 !/repos/private/.gitkeep
