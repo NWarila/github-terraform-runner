@@ -1,0 +1,14 @@
+terraform-runner-template:
+  description: "Opinionated template for terraform-runner repos that deploy a Terraform framework against per-environment data (e.g. github-terraform-runner deploying github-terraform-framework)."
+  visibility: "public"
+  is_template: true
+  topics:
+    - terraform
+    - template
+    - project-template
+    - infrastructure-as-code
+    - ci-cd
+    - devsecops
+    - best-practices
+    - hashicorp
+    - runner

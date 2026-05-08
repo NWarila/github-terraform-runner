@@ -1,0 +1,51 @@
+name: Deploy GitHub Terraform
+
+# Calls nwarila-platform/github-terraform-framework reusable deploy
+# workflow. This file is byte-identical across all three github-terraform-
+# runner repos; per-runner specifics live in repo Variables and Secrets:
+#
+#   secrets.AWS_ROLE_TO_ASSUME              full IAM role ARN for OIDC
+#   secrets.AWS_REGION                      e.g. us-east-1
+#   secrets.AWS_S3_BUCKET                   tfstate backend + private-repo source bucket
+#   secrets.FINE_GRAINED_PERSONAL_ACCESS_TOKEN  GH PAT for Terraform
+#
+#   vars.PRIVATE_REPOS_FILES   newline-separated list of private-repo
+#                              filenames to download from S3 before deploy.
+#                              Each line is a bare filename (e.g.
+#                              `Personal.yml`); the reusable derives the S3
+#                              URL via the convention
+#                              `s3://<bucket>/<owner-lc>/<repo>/repos/<file>`.
+#                              Leave empty to skip S3 fetch entirely (the
+#                              committed `repos/private/` is still overlaid).
+#
+# github_owner is derived from ${{ github.repository_owner }} so the file
+# itself stays identical across the three runners.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "repos/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: tf-${{ github.event.repository.name }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@40d21e78004ae11e3a2cb4b2d9319643e114743b
+    with:
+      github_owner: ${{ github.repository_owner }}
+      # renovate: datasource=github-releases depName=hashicorp/terraform extractVersion=^v(?<version>.*)$ versioning=hashicorp
+      terraform_version: "1.15.1"
+      private_repos_files: ${{ vars.PRIVATE_REPOS_FILES }}
+    secrets:
+      aws_role_arn: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      aws_region: ${{ secrets.AWS_REGION }}
+      backend_bucket: ${{ secrets.AWS_S3_BUCKET }}
+      github_token: ${{ secrets.FINE_GRAINED_PERSONAL_ACCESS_TOKEN }}
