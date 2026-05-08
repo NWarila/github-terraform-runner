@@ -41,6 +41,8 @@ jobs:
     uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@5852ce54d5f217224fe55ccf8ff483517d3222d7
     with:
       github_owner: ${{ github.repository_owner }}
+      # Renovate keeps this in lockstep with the uses: SHA above.
+      framework_ref: 5852ce54d5f217224fe55ccf8ff483517d3222d7
       # renovate: datasource=github-releases depName=hashicorp/terraform extractVersion=^v(?<version>.*)$ versioning=hashicorp
       terraform_version: "1.15.1"
       private_repos_files: ${{ vars.PRIVATE_REPOS_FILES }}
