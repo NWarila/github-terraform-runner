@@ -1,0 +1,13 @@
+drift-gate:
+  description: "Composite GitHub Action that detects when files in a consumer repo have drifted from a canonical source. Reports per-file annotations via the GitHub Check Runs API; gates merges via repository ruleset."
+  visibility: "public"
+  is_template: false
+  topics:
+    - github-actions
+    - composite-action
+    - quality-gate
+    - drift-detection
+    - canonical-files
+    - byte-equality
+    - ci-cd
+    - devsecops
