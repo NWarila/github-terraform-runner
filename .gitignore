@@ -43,6 +43,10 @@
 !/.github/workflows/security.yaml
 !/.github/workflows/template-sync.yaml
 !/.github/workflows/terraform-deploy.yaml
+# One-shot state-rebind workflow for the terraform-template rename.
+# Delete after the rebind has run successfully (state list shows no
+# entries keyed by "terraform-template").
+!/.github/workflows/state-rebind-rename.yaml
 
 # ----- [ Documentation (Diátaxis) ] ---------------------------------------------------------------
 
