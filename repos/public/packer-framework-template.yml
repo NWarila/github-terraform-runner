@@ -1,0 +1,14 @@
+packer-framework-template:
+  description: "Canonical template for Packer framework repos that own reusable image-building contracts, validation, release evidence, and downstream consumer integration patterns."
+  visibility: "public"
+  is_template: true
+  topics:
+    - packer
+    - template
+    - framework-template
+    - infrastructure-as-code
+    - ci-cd
+    - devsecops
+    - best-practices
+    - hashicorp
+    - image-building

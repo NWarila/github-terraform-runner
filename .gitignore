@@ -90,6 +90,7 @@
 !/repos/public/.github.yml
 !/repos/public/NWarila.yml
 !/repos/public/github-terraform-runner.yml
+!/repos/public/packer-framework-template.yml
 !/repos/public/packer-template.yml
 !/repos/public/powershell-template.yml
 !/repos/public/python-template.yml
