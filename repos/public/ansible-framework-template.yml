@@ -1,0 +1,14 @@
+ansible-framework-template:
+  description: "Canonical template for Ansible framework repos that own reusable configuration contracts, localhost-safe validation, release evidence, and Terraform/Packer consumer integration."
+  visibility: "public"
+  is_template: true
+  topics:
+    - ansible
+    - template
+    - framework-template
+    - configuration-management
+    - infrastructure-as-code
+    - ci-cd
+    - devsecops
+    - best-practices
+    - automation
