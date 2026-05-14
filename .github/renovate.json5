@@ -1,0 +1,136 @@
+{
+  // Schema for editor validation. Update only when intentionally adopting a new schema.
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  // Renovate config for NWarila/terraform-runner-template — the canonical
+  // baseline for every Terraform-runner consumer in the portfolio. This
+  // file is the single source of truth for Renovate behavior across every
+  // Terraform repo under nwarila-platform; consumers extend it via
+  // `extends: ["github>NWarila/terraform-runner-template"]` (see org
+  // ADR-0004 in NWarila/.github for the per-template-baseline
+  // model).
+  //
+  // Rules in this file:
+  //   - Pin third-party GitHub Actions to commit SHAs (matches the OPA
+  //     repo_hygiene package's enforcement and org ADR-0004's
+  //     SHA-pin retention check).
+  //   - Pin Terraform and provider versions exactly (template-tier
+  //     ADR-template/0001 in this repo at
+  //     docs/decision-records/template/0001-pin-terraform-and-provider-versions-exactly.md).
+  //   - Track explicit `# renovate:` annotations in workflow comments
+  //     for tool versions (Terraform CLI, TFLint, terraform-docs, OPA,
+  //     zizmor).
+
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(chore)"
+  ],
+
+  "schedule": ["before 6am on monday"],
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 5,
+
+  // Supply-chain quarantine. No update lands sooner than 7 days after the
+  // upstream release was published. Combined with `internalChecksFilter:
+  // "strict"`, a release whose timestamp Renovate cannot resolve is treated
+  // as failing the age check (rather than silently passing). Catches the
+  // common compromised-package window where a malicious release gets yanked
+  // within hours/days of publication.
+  //
+  // No vulnerability-alert carve-out is configured here; if a CVE-driven
+  // immediate-bump policy becomes necessary, add
+  // `vulnerabilityAlerts: { enabled: true, minimumReleaseAge: "0 days" }`
+  // and record the carve-out in a superseding ADR.
+  "minimumReleaseAge": "7 days",
+  "internalChecksFilter": "strict",
+
+  "enabledManagers": [
+    "github-actions",
+    "terraform",
+    "pre-commit",
+    "pip_requirements",
+    "custom.regex"
+  ],
+
+  "customManagers": [
+    {
+      // Match `# renovate: datasource=...` annotations followed by a
+      // value: "..." or value: '...' assignment. Catches Terraform/TFLint/
+      // terraform-docs/OPA/zizmor versions in workflow inputs and shell
+      // scripts.
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/.*\\.ya?ml$/",
+        "/^tools/.*\\.sh$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-zA-Z0-9-._]+?) depName=(?<depName>[^\\s]+?)(?: packageName=(?<packageName>[^\\s]+?))?(?: extractVersion=(?<extractVersion>[^\\s]+?))?(?: versioning=(?<versioning>[^\\s]+?))?\\s+\\w+(?:_VERSION)?:\\s*\"(?<currentValue>[^\"]+)\"",
+        "# renovate: datasource=(?<datasource>[a-zA-Z0-9-._]+?) depName=(?<depName>[^\\s]+?)(?: packageName=(?<packageName>[^\\s]+?))?(?: extractVersion=(?<extractVersion>[^\\s]+?))?(?: versioning=(?<versioning>[^\\s]+?))?\\s+\\w+_VERSION=\"(?<currentValue>[^\"]+)\"",
+        "# renovate: datasource=(?<datasource>[a-zA-Z0-9-._]+?) depName=(?<depName>[^\\s]+?)(?: packageName=(?<packageName>[^\\s]+?))?(?: extractVersion=(?<extractVersion>[^\\s]+?))?(?: versioning=(?<versioning>[^\\s]+?))?\\s+pip install --no-cache-dir (?<depName2>[a-zA-Z0-9-._]+)==(?<currentValue>[^\\s]+)"
+      ]
+    },
+    {
+      // Track SHA body inputs that must move with reusable workflow `uses:`
+      // pins. Renovate's git-refs datasource treats the branch name as
+      // currentValue and the checked-in 40-char SHA as currentDigest.
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/.*\\.ya?ml$/"
+      ],
+      "datasourceTemplate": "git-refs",
+      "versioningTemplate": "loose",
+      "matchStrings": [
+        "# renovate: depName=(?<depName>[^\\s]+) packageName=(?<packageName>[^\\s]+) currentValue=(?<currentValue>[^\\s]+)\\s+(?:template_ref|framework_ref|source-ref):\\s*(?<currentDigest>[0-9a-f]{40})"
+      ]
+    }
+  ],
+
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "pinDigests": true,
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "matchManagers": ["terraform"],
+      "rangeStrategy": "pin",
+      "semanticCommitType": "deps",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "matchDepNames": ["hashicorp/terraform"],
+      "groupName": "Terraform CLI",
+      "semanticCommitType": "deps",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "matchDepNames": ["actions/setup-python"],
+      "groupName": "actions/setup-python",
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "deps"
+    },
+    {
+      // Bumps to NWarila/terraform-runner-template itself (when consumers
+      // pin against this template's SHA in their drift-gate.yaml or
+      // workflow `uses:` references) are grouped and never automerged —
+      // the maintainer reviews them.
+      "matchDepNames": ["NWarila/terraform-runner-template"],
+      "groupName": "terraform-runner-template",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps",
+      "automerge": false
+    },
+    {
+      // Bumps to the reference framework pin must update both the reusable
+      // workflow `uses:` SHA and the matching framework_ref body input.
+      "matchDepNames": ["NWarila/terraform-framework-template"],
+      "groupName": "terraform-framework-template",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps",
+      "automerge": false
+    }
+  ]
+}
