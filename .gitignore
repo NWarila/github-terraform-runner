@@ -86,6 +86,7 @@
 !/repos/
 !/repos/public/
 !/repos/public/.gitkeep
+!/repos/public/ansible-framework-template.yml
 !/repos/public/drift-gate.yml
 !/repos/public/.github.yml
 !/repos/public/NWarila.yml
