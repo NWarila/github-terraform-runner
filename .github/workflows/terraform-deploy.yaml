@@ -13,10 +13,9 @@ name: Deploy GitHub Terraform
 #                              filenames to download from S3 before deploy.
 #                              Each line is a bare filename (e.g.
 #                              `Personal.yml`); the reusable derives the S3
-#                              URL via the convention
-#                              `s3://<bucket>/<owner-lc>/<repo>/repos/<file>`.
+#                              URL via private_repos_prefix below.
 #                              Leave empty to skip S3 fetch entirely (the
-#                              committed `repos/private/` is still overlaid).
+#                              committed `terraform/private/` is still overlaid).
 #
 # github_owner is derived from ${{ github.repository_owner }} so the file
 # itself stays identical across the three runners.
@@ -25,7 +24,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "repos/**"
+      - "terraform/**"
   workflow_dispatch:
 
 permissions:
@@ -38,14 +37,17 @@ concurrency:
 
 jobs:
   deploy:
-    uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@394f8b2d5667f7f214f58ac33e335410472a18c9
+    uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@ac77aec7495e9663bd85ad87cd8dcdb847daf62b
     with:
       github_owner: ${{ github.repository_owner }}
       # Renovate keeps this in lockstep with the uses: SHA above.
-      framework_ref: 394f8b2d5667f7f214f58ac33e335410472a18c9
+      framework_ref: ac77aec7495e9663bd85ad87cd8dcdb847daf62b
       # renovate: datasource=github-releases depName=hashicorp/terraform extractVersion=^v(?<version>.*)$ versioning=hashicorp
       terraform_version: "1.15.1"
       private_repos_files: ${{ vars.PRIVATE_REPOS_FILES }}
+      # Preserve the existing S3 source layout while the runner-local inventory
+      # path moves to terraform/private.
+      private_repos_prefix: nwarila/github-terraform-runner/repos
     secrets:
       aws_role_arn: ${{ secrets.AWS_ROLE_TO_ASSUME }}
       aws_region: ${{ secrets.AWS_REGION }}
