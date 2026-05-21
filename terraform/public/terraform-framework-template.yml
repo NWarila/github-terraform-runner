@@ -2,6 +2,8 @@ terraform-framework-template:
   description: "Do-nothing reference framework. Demonstrates Terraform-framework patterns with synthetic providers (null/random/local/time/tls). Generates real tfstate; zero external deps, zero cost. Consumed by terraform-runner-template's example pr-validation for end-to-end coverage."
   visibility: "public"
   is_template: true
+  codeowners: |
+    * @NWarila
   topics:
     - terraform
     - template
