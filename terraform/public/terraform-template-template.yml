@@ -1,13 +1,9 @@
 terraform-template-template:
-  description: "Canonical meta-template for the per-type-template architecture under NWarila. Hosts universal reusable workflows synced into per-type templates (terraform-runner-template, python-template, etc.) and itself acts as the framework-shape template for terraform-framework consumers."
+  description: "Abandoned experiment; do not consume. Retained archived for historical PR and review context only."
   visibility: "public"
-  is_template: true
+  archived: true
+  archive_on_destroy: true
+  is_template: false
   topics:
-    - terraform
-    - template
-    - project-template
-    - infrastructure-as-code
-    - ci-cd
-    - devsecops
-    - best-practices
-    - hashicorp
+    - abandoned
+    - archived
