@@ -227,6 +227,8 @@ def workflow_helper_tests() -> None:
     shellcheck()
     run([PYTHON, "tools/check_workflow_run_blocks.py", ".github/workflows"])
     run([PYTHON, "tools/check_caller_workflows.py", "--repo-root", "."])
+    run([PYTHON, "tools/check_privileged_workflows.py", "--repo-root", "."])
+    run([PYTHON, "tools/run_privileged_workflow_tests.py"])
     contract_tests()
 
 

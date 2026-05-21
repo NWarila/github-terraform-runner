@@ -28,6 +28,6 @@ jobs:
         with:
           source-repo: NWarila/terraform-runner-template
           # renovate: depName=NWarila/terraform-runner-template packageName=NWarila/terraform-runner-template currentValue=main
-          source-ref: 32b4c952b2763eba4190824d6d090573f05cecde
+          source-ref: b6a74281dea86ea8e3c455861bb4d654f94bf26a
           manifest: baseline-manifest.json
           check-name: runner-template / verify
