@@ -1,48 +1,30 @@
-# Mirroring And Consumer Baseline
+# Mirroring And Runner Baseline
 
-This template keeps the serious controls in one place while keeping downstream
-runner repos small enough to operate without ceremony.
+This runner mirrors only the stable, byte-identical scaffold declared by the
+pinned `terraform-runner-template` baseline. Template-maintainer files such as
+contract harnesses, local OPA policy tests, integration fixtures, and
+`tools/verify.py` do not belong in this repository.
 
-## Required Consumer Baseline
+## What Is Mirrored
 
-A runner consumer must keep the contract-critical files: community health files,
-`.github/CODEOWNERS`, Renovate config, `pr-validation.yaml`, `drift-gate.yaml`,
-`security.yaml`, `terraform-deploy.yaml`, the docs skeleton, `Makefile`,
-`tools/verify.py`, and the runner inventory directories.
+The drift gate enforces shared workflow callers, reusable workflows that this
+runner actually calls, formatting config, and layout sentinels. The source of
+truth is the pinned `source-ref` in `.github/workflows/drift-gate.yaml`.
 
-The contract validator checks the required paths and the caller-workflow wiring.
-The template-tier drift manifest mirrors only the stable scaffold files that
-should remain byte-identical across runners.
+## What This Repo Owns
 
-## Repo-Owned Layer
+This repo owns:
 
-The runner owns `terraform/public/`, `terraform/private/`, deploy inputs, template pins,
-framework pins, and repo-specific ADRs. Those files are validated for shape and
-safety, not byte-mirrored.
+- `terraform/public/*.yml`
+- `terraform/private/.gitkeep`
+- `tests/fixtures/terraform/private/*.yml`
+- workflow pins and deploy inputs
+- runner-specific documentation
 
-## Optional Release Layer
+## Update Rule
 
-`release.yaml`, release-please config, release evidence, and trusted-bot
-auto-merge are supported by the template, but downstream runners do not have to
-carry them. Keep that layer for repos that publish versioned releases. Remove it
-for runners that only deploy inventory.
+When the runner template changes, merge the template change first, then bump
+both runner template pins in this repo to the same template commit SHA:
 
-## Template-Maintainer Layer
-
-Reusable workflows, OPA policy tests, generated contract fixtures, and contract
-tooling are template-maintainer machinery. They are valuable portfolio signal,
-but new runner repos should only touch them when changing the baseline itself.
-Template-only self-validation workflows such as `ci.yaml` are not byte-mirrored
-into consumers. The normal `terraform-deploy.yaml` caller is mirrored because it
-is the regular runner deploy example: `pr-validation.yaml` plans locally, while
-trusted main/manual deploy runs prove the S3 backend against the repo's actual
-state key.
-
-## New Runner Checklist
-
-1. Rewrite `README.md` for the real runner.
-2. Fill `terraform/public/` and configure how `terraform/private/` is sourced.
-3. Pin `pr-validation.yaml` and `terraform-deploy.yaml` to the intended template
-   and framework SHAs.
-4. Decide whether to keep the optional release layer.
-5. Run `python tools/verify.py verify`.
+- `pr-validation.yaml` `uses:` and `template_ref`
+- `drift-gate.yaml` `source-ref`

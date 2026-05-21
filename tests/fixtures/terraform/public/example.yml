@@ -1,4 +1,0 @@
-# Public-safe fixture used by pr-validation only.
-# In production, this directory is populated from the runner's terraform/public/.
-name: example-public-repo
-visibility: public

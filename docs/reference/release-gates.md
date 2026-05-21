@@ -2,11 +2,14 @@
 
 PRs to `main` must pass:
 
-- `make ci` (Terraform fmt/init/validate/test, TFLint, terraform-docs
-  diff, Diátaxis docs layout, OPA tests)
-- Reusable lint gates (actionlint, shellcheck, yamllint, ruff,
-  markdownlint)
-- Reusable IaC security gates (Trivy, Gitleaks, zizmor)
+- `pr-validation.yaml`: calls the pinned
+  `NWarila/terraform-runner-template` reusable, overlays this runner's
+  `terraform/public/` inventory and public-safe private fixture into the pinned
+  framework, then runs the framework quality gate.
+- `drift-gate.yaml`: verifies only byte-identical scaffold files from the
+  pinned runner template.
+- `security.yaml`: runs the local reusable security callers for IaC scanning,
+  CodeQL, and Scorecard.
 
-All gates run via `NWarila/terraform-template` reusable workflows and
-must be SHA-pinned per the contract.
+This repo does not have a local `make ci` gate. The executable Terraform module
+and its tests live in `nwarila-platform/github-terraform-framework`.
