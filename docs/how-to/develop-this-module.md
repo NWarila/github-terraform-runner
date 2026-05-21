@@ -1,29 +1,35 @@
-# Develop this module
+# Develop This Runner
 
-## Local setup
+## Local Setup
 
-Use the devcontainer in [`nwarila/terraform-template/.devcontainer`](https://github.com/NWarila/terraform-template/tree/main/.devcontainer)
-or install the same pinned tools manually:
+This repo is a thin deployer. It owns repository inventory YAML under
+`terraform/public/` and delegates Terraform validation and apply behavior to
+pinned reusable workflows.
 
-- Terraform 1.15.1
-- TFLint 0.59.1
-- terraform-docs 0.20.0
-- OPA 1.10.0
-- Python 3.12 with `pyyaml`, `ruff`, `yamllint`, `zizmor`
+For local editing, install:
 
-## The development loop
+- Python 3.12 with `pre-commit`
+- actionlint, if you want local workflow linting outside pre-commit
 
-```sh
-make fmt        # format Terraform
-make ci         # run every gate
-make docs       # regenerate docs/reference/terraform.md
-```
+Terraform, TFLint, OPA, and terraform-docs run in the consumed framework during
+PR validation; this repo does not keep a local framework-shaped `tools/`
+harness.
 
-## Before opening a PR
+## Development Loop
 
-```sh
-make ci
-```
+1. Edit `terraform/public/*.yml`, or update the public-safe private fixture in
+   `tests/fixtures/terraform/private/` when PR validation needs representative
+   private input.
+2. Run `pre-commit run --all-files` for local YAML, workflow, and Markdown
+   checks.
+3. Open a PR and let `pr-validation.yaml` assemble the pinned framework with
+   this runner's inventory.
 
-If `make ci` is green locally, the reusable validation workflow will be
-green in CI.
+## Before Opening A PR
+
+Confirm these pins move together when bumping templates:
+
+- `.github/workflows/pr-validation.yaml` `uses:` and `template_ref`
+- `.github/workflows/drift-gate.yaml` `source-ref`
+- `.github/workflows/pr-validation.yaml` `framework_ref`
+- `.github/workflows/terraform-deploy.yaml` reusable SHA and `framework_ref`

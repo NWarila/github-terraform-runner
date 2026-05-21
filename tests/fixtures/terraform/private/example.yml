@@ -1,5 +1,3 @@
-# Public-safe fixture used by pr-validation only.
-# In production, the actual private repo definitions are sourced from S3.
-# Anything sensitive must NOT live here — this file is in the public repo.
-name: example-private-repo
-visibility: private
+example-private-repo:
+  description: "Public-safe private fixture used by pr-validation only."
+  visibility: "private"
