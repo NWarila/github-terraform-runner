@@ -1,6 +1,6 @@
 name: Release
 
-# Optional release entrypoint for release-please and release evidence.
+# Optional release entrypoint for template-owned release-please and release evidence.
 # Trusted-bot auto-merge lives in auto-merge.yaml so pull_request_target
 # is isolated from release publishing paths.
 
@@ -9,8 +9,8 @@ on:
     branches: [main]
   # Human-published releases still enter through this event. The normal
   # release-please path publishes with GITHUB_TOKEN, whose release events do
-  # not cascade, so reusable-release-please.yaml dispatches `release-evidence`
-  # explicitly after it creates a release.
+  # not cascade, so the release-please reusable dispatches `release-evidence`
+  # in this caller explicitly after it creates a release.
   release:
     types: [published]
   workflow_dispatch:
@@ -43,7 +43,7 @@ jobs:
       pull-requests: write
       issues: write
       actions: write
-    uses: ./.github/workflows/reusable-release-please.yaml
+    uses: NWarila/terraform-runner-template/.github/workflows/reusable-release-please.yaml@4487471f0dc181a600ac6bf542eb0a90fd320979
 
   evidence:
     name: Release Evidence
@@ -52,7 +52,7 @@ jobs:
       attestations: write
       contents: write
       id-token: write
-    uses: ./.github/workflows/reusable-release-evidence.yaml
+    uses: NWarila/terraform-runner-template/.github/workflows/reusable-release-evidence.yaml@4487471f0dc181a600ac6bf542eb0a90fd320979
     with:
       # renovate: datasource=github-releases depName=hashicorp/terraform extractVersion=^v(?<version>.*)$ versioning=hashicorp
       terraform_version: "1.15.1"
