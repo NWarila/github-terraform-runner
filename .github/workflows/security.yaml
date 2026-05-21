@@ -27,7 +27,7 @@ jobs:
       contents: read
       security-events: write
       actions: read
-    uses: NWarila/terraform-runner-template/.github/workflows/reusable-iac-security.yaml@4487471f0dc181a600ac6bf542eb0a90fd320979
+    uses: NWarila/terraform-runner-template/.github/workflows/reusable-iac-security.yaml@97dec3587e3e24890adda1097c64c6d0bd5c7696
 
   codeql:
     name: CodeQL
@@ -35,7 +35,7 @@ jobs:
       contents: read
       security-events: write
       actions: read
-    uses: NWarila/terraform-runner-template/.github/workflows/reusable-codeql.yaml@4487471f0dc181a600ac6bf542eb0a90fd320979
+    uses: NWarila/terraform-runner-template/.github/workflows/reusable-codeql.yaml@97dec3587e3e24890adda1097c64c6d0bd5c7696
 
   scorecard:
     name: OpenSSF Scorecard
@@ -45,4 +45,4 @@ jobs:
       id-token: write
       actions: read
       contents: read
-    uses: NWarila/terraform-runner-template/.github/workflows/reusable-scorecard.yaml@4487471f0dc181a600ac6bf542eb0a90fd320979
+    uses: NWarila/terraform-runner-template/.github/workflows/reusable-scorecard.yaml@97dec3587e3e24890adda1097c64c6d0bd5c7696

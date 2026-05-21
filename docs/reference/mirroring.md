@@ -7,9 +7,15 @@ contract harnesses, local OPA policy tests, integration fixtures, and
 
 ## What Is Mirrored
 
-The drift gate enforces shared workflow callers, reusable workflows that this
-runner actually calls, formatting config, and layout sentinels. The source of
-truth is the pinned `source-ref` in `.github/workflows/drift-gate.yaml`.
+The drift gate enforces only byte-identical scaffold that should never vary in
+runner repos: formatting config, layout sentinels, the PR template, license,
+and the local privileged auto-merge reusable. The source of truth is the pinned
+`source-ref` in `.github/workflows/drift-gate.yaml`.
+
+Workflow caller shape is enforced by the runner-template contract during
+`pr-validation.yaml`. Security and release callers must delegate to
+`terraform-runner-template` reusable workflows by immutable SHA; the only local
+reusable workflow implementation allowed here is `reusable-auto-merge.yaml`.
 
 ## What This Repo Owns
 
