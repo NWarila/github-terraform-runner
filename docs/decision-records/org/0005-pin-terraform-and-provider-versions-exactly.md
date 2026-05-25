@@ -13,7 +13,7 @@
 
 ## TL;DR
 
-Every repository under `NWarila` that contains Terraform configuration pins both the Terraform CLI version (via `terraform { required_version = "= X.Y.Z" }`) and every provider version in `required_providers` to an exact version using the `=` operator. Range constraints (`>=`, `~>`, etc.) are not used. Renovate keeps these exact pins current via `rangeStrategy: "pin"` configured in the shared org baseline at `NWarila/.github/.github/renovate.json5`. Consumers of repos that publish Terraform modules MUST run the exact pinned Terraform CLI version; consumers running anything else hit `terraform init` failure immediately rather than discovering compatibility issues partway through `apply`.
+Every repository under `NWarila` that contains Terraform configuration pins both the Terraform CLI version (via `terraform { required_version = "= X.Y.Z" }`) and every provider version in `required_providers` to an exact version using the `=` operator. Range constraints (`>=`, `~>`, etc.) are not used. Renovate keeps these exact pins current via `rangeStrategy: "pin"` configured in each Terraform-shape type-template baseline. Consumers of repos that publish Terraform modules MUST run the exact pinned Terraform CLI version; consumers running anything else hit `terraform init` failure immediately rather than discovering compatibility issues partway through `apply`.
 
 ## Context and Problem Statement
 
@@ -68,11 +68,11 @@ In every repository that adopts this baseline:
 
 - The `terraform { }` block in `versions.tf` MUST set `required_version = "= X.Y.Z"` using a single exact version. Range operators (`>=`, `~>`, etc.) MUST NOT be used.
 - Every `required_providers` entry MUST set `version = "= X.Y.Z"` using a single exact version.
-- The shared org Renovate baseline at `NWarila/.github/.github/renovate.json5` sets `terraform.rangeStrategy: "pin"`. Every adopting repository inherits this via `extends: ["github>NWarila/.github"]` per [ADR-0004](0004-use-renovate-for-dependency-updates.md). Repo-local Renovate configs MUST NOT override this to `"bump"`, `"replace"`, or `"widen"` without a superseding repo-level ADR.
+- Every Terraform-shape type-template Renovate baseline sets `terraform.rangeStrategy: "pin"` for Terraform manager updates. Consumers inherit this via `extends: ["github>NWarila/<type-template>//.github/renovate.json5"]` per [ADR-0004](0004-use-renovate-for-dependency-updates.md). Repo-local Renovate configs MUST NOT override this to `"bump"`, `"replace"`, or `"widen"` without a superseding repo-level ADR.
 - The README's "Provider Requirements" or equivalent table MUST display the exact pinned versions and explain that consumers must run that exact CLI version.
 - When a repository updates either the Terraform CLI or a provider version, the update MUST be tested against the pinned version before merging the Renovate PR. A `terraform test` suite that runs on every PR satisfies this requirement.
 
-This refines the rangeStrategy guidance in [ADR-0004](0004-use-renovate-for-dependency-updates.md) §Decision Outcome, which previously suggested `"bump"` for child modules and `"pin"` for root modules. ADR-0005 narrows that to a single org-wide policy: **always pin exactly**. ADR-0004's mention of `"bump"` is superseded by this ADR for the rangeStrategy choice; the rest of ADR-0004 (Renovate over Dependabot, shared baseline at `NWarila/.github`) remains in force.
+This refines the rangeStrategy guidance in [ADR-0004](0004-use-renovate-for-dependency-updates.md) §Decision Outcome by making the Terraform stack's answer unambiguous: **always pin exactly**. ADR-0004's decision to use Renovate with per-template baselines remains in force.
 
 ## Pros and Cons of the Options
 
@@ -118,7 +118,7 @@ This refines the rangeStrategy guidance in [ADR-0004](0004-use-renovate-for-depe
 Adherence to this ADR is confirmed by the following mechanisms. The wording `MUST`, `SHOULD`, and `MAY` follows [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) conventions.
 
 1. **Constraint operator check.** Every `required_version` and `required_providers[].version` value MUST use the `=` exact operator. A CI script or `tflint` rule MAY assert this; the regex `^=\s*[0-9]+\.[0-9]+\.[0-9]+$` is sufficient for the exact-pin shape.
-2. **Renovate rangeStrategy check.** The shared org baseline at `NWarila/.github/.github/renovate.json5` MUST set `terraform.rangeStrategy: "pin"`. Repo-local overrides MAY narrow this for a specific manager but MUST NOT widen it without a superseding repo-level ADR. A CI script MAY assert this.
+2. **Renovate rangeStrategy check.** Every Terraform-shape type-template baseline MUST set `terraform.rangeStrategy: "pin"` for Terraform manager updates. Repo-local overrides MAY narrow this for a specific manager but MUST NOT widen it without a superseding repo-level ADR. A CI script MAY assert this.
 3. **README documentation.** Repositories that publish Terraform modules MUST document the exact pinned Terraform CLI version and provider versions in the README's prerequisites or provider requirements section, with an explicit statement that consumers must run those exact versions.
 4. **Test-before-bump rule.** A Renovate PR that bumps the Terraform CLI version or a pinned provider version SHOULD NOT be merged without the maintainer running the test suite against the new version. A CI workflow that runs `terraform test` on every PR satisfies this requirement automatically.
 5. **Editorial rule.** A relaxation of the exact-pin policy (e.g., adopting `~>` for a specific repo) is an architectural decision and MUST be recorded as a repository-level superseding ADR.
@@ -165,7 +165,7 @@ Pending. The first implementing PR ships in `terraform-proxmox-iso-manager-frame
 
 ## Related ADRs
 
-- [ADR-0001](0001-use-architecture-decision-records.md) — establishes the format and dual-scope structure of decision records.
+- [ADR-0001](0001-use-architecture-decision-records.md) — establishes the format and three-tier scope structure of decision records.
 - [ADR-0004](0004-use-renovate-for-dependency-updates.md) — establishes Renovate as the org's dependency-update tool. ADR-0005 refines ADR-0004's rangeStrategy guidance to "always pin exactly".
 
 ## Compliance Notes
