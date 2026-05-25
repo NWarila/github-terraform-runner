@@ -20,7 +20,7 @@ jobs:
     uses: NWarila/terraform-runner-template/.github/workflows/reusable-terraform-validation.yaml@97dec3587e3e24890adda1097c64c6d0bd5c7696
     with:
       # renovate: datasource=github-releases depName=hashicorp/terraform extractVersion=^v(?<version>.*)$ versioning=hashicorp
-      terraform_version: "1.15.1"
+      terraform_version: "1.15.4"
       # renovate: depName=NWarila/terraform-runner-template packageName=https://github.com/NWarila/terraform-runner-template currentValue=main
       template_ref: 97dec3587e3e24890adda1097c64c6d0bd5c7696
       mode: runner
@@ -28,7 +28,7 @@ jobs:
       framework_repo: nwarila-platform/github-terraform-framework
       # Renovate keeps this in lockstep with terraform-deploy.yaml.
       # renovate: depName=nwarila-platform/github-terraform-framework packageName=nwarila-platform/github-terraform-framework currentValue=main
-      framework_ref: 12ad292ed4a511ac292bcc67e18ceee629c7f45d
+      framework_ref: f3c05b7fe39e24cac44e845c68b7a1f0e3e9ddc3
       overlay_paths: |
         terraform/public => terraform/repos/public
         tests/fixtures/terraform/private => terraform/repos/private

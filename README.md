@@ -48,3 +48,6 @@ tests/
 Renovate keeps `framework_ref`, the framework reusable SHA, and the
 runner-template SHA current. Trusted-bot PRs auto-merge once required checks
 pass; human PRs follow normal review.
+
+The complete gate inventory lives in
+[`docs/reference/quality-gates.md`](docs/reference/quality-gates.md).
