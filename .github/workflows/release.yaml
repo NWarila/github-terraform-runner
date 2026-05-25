@@ -43,7 +43,7 @@ jobs:
       pull-requests: write
       issues: write
       actions: write
-    uses: NWarila/terraform-runner-template/.github/workflows/reusable-release-please.yaml@97dec3587e3e24890adda1097c64c6d0bd5c7696
+    uses: NWarila/terraform-runner-template/.github/workflows/reusable-release-please.yaml@873d0998eaf933d674503d746f0bff0a165673f4
 
   evidence:
     name: Release Evidence
@@ -52,7 +52,7 @@ jobs:
       attestations: write
       contents: write
       id-token: write
-    uses: NWarila/terraform-runner-template/.github/workflows/reusable-release-evidence.yaml@97dec3587e3e24890adda1097c64c6d0bd5c7696
+    uses: NWarila/terraform-runner-template/.github/workflows/reusable-release-evidence.yaml@873d0998eaf933d674503d746f0bff0a165673f4
     with:
       # renovate: datasource=github-releases depName=hashicorp/terraform extractVersion=^v(?<version>.*)$ versioning=hashicorp
       terraform_version: "1.15.4"
