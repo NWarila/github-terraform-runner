@@ -37,12 +37,12 @@ concurrency:
 
 jobs:
   deploy:
-    uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@7f2cf0b65f1ba4e677c1f490daa1d0006be1080a
+    uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@508823acb1da94297d089d6353adda9e817146f9
     with:
       github_owner: ${{ github.repository_owner }}
       # Renovate keeps this in lockstep with the uses: SHA above.
       # renovate: depName=nwarila-platform/github-terraform-framework packageName=nwarila-platform/github-terraform-framework currentValue=main
-      framework_ref: 7f2cf0b65f1ba4e677c1f490daa1d0006be1080a
+      framework_ref: 508823acb1da94297d089d6353adda9e817146f9
       # renovate: datasource=github-releases depName=hashicorp/terraform extractVersion=^v(?<version>.*)$ versioning=hashicorp
       terraform_version: "1.15.4"
       private_repos_files: ${{ vars.PRIVATE_REPOS_FILES }}

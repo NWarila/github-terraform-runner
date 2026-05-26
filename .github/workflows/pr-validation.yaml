@@ -28,7 +28,7 @@ jobs:
       framework_repo: nwarila-platform/github-terraform-framework
       # Renovate keeps this in lockstep with terraform-deploy.yaml.
       # renovate: depName=nwarila-platform/github-terraform-framework packageName=nwarila-platform/github-terraform-framework currentValue=main
-      framework_ref: 7f2cf0b65f1ba4e677c1f490daa1d0006be1080a
+      framework_ref: 508823acb1da94297d089d6353adda9e817146f9
       overlay_paths: |
         terraform/public => terraform/repos/public
         tests/fixtures/terraform/private => terraform/repos/private
