@@ -1,0 +1,23 @@
+chiseled-application-template:
+  description: "Canonical template for Ubuntu Chiseled application image repositories that build minimal OCI images with pinned inputs, SBOM/provenance, signing evidence, and runtime hardening checks."
+  visibility: "public"
+  is_template: true
+  codeowners: |
+    * @NWarila
+  topics:
+    - ubuntu
+    - ubuntu-chiseled
+    - chisel
+    - containers
+    - template
+    - project-template
+    - oci-images
+    - ci-cd
+    - devsecops
+    - best-practices
+    - supply-chain-security
+    - sbom
+    - provenance
+    - sigstore
+    - cosign
+    - container-hardening
