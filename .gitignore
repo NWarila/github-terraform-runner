@@ -25,6 +25,7 @@
 !/docs/decision-records/org/
 !/docs/decision-records/repo/
 !/docs/decision-records/template/
+!/docs/diagrams/
 !/docs/explanation/
 !/docs/how-to/
 !/docs/reference/
@@ -92,5 +93,8 @@
 !/docs/reference/mirroring.md
 !/docs/explanation/repo-type-taxonomy-and-ci-focus.md
 !/docs/diagrams/.gitkeep
+!/docs/diagrams/deploy-overlay-sequence.mmd
 !/docs/runbooks/.gitkeep
 !/docs/runbooks/purge-ai-attributed-history.md
+!/docs/tutorials/add-a-public-repo.md
+!/docs/decision-records/repo/0002-deploy-via-framework-overlay.md
