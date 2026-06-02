@@ -1,3 +1,12 @@
 NWarila:
   description: "GitHub profile README and account-level configuration repository."
   visibility: "public"
+  topics:
+    - profile-readme
+    - devsecops
+    - platform-engineering
+    - infrastructure-as-code
+    - terraform
+    - ansible
+    - packer
+    - cleared-defense
