@@ -1,0 +1,19 @@
+deploy-application-template:
+  description: "Canonical template for deploy-* GitOps repositories: a digest-pinned, PSS-restricted Kustomize base+overlay skeleton with a merge-gating validate workflow (render, schema, digest-pin, image-contract, secret-scan), deny-all .gitignore, repo ADRs, and a documented cluster admission contract."
+  visibility: "public"
+  is_template: true
+  codeowners: |
+    * @NWarila
+  topics:
+    - gitops
+    - kustomize
+    - kubernetes
+    - flux
+    - deployment
+    - template
+    - project-template
+    - devsecops
+    - supply-chain-security
+    - pod-security-standards
+    - ci-cd
+    - best-practices
