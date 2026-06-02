@@ -15,3 +15,5 @@ terraform-framework-template:
     - hashicorp
     - framework
     - reference-implementation
+  required_checks:
+    - "terraform verify"

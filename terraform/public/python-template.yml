@@ -10,3 +10,5 @@ python-template:
     - ci-cd
     - devsecops
     - best-practices
+  required_checks:
+    - "ci-passed"
