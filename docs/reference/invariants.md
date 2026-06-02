@@ -20,9 +20,12 @@ change at minimum.
 - It does not own `verify.py`, OPA policy, contract fixtures, or template-owned
   reusable workflow implementations. Those stay in `terraform-runner-template`
   and are consumed by immutable SHA.
-- The only local reusable workflow implementation allowed here is
-  `reusable-auto-merge.yaml`, because privileged `pull_request_target` behavior
-  must be statically inspectable in the consumer repo.
+- It does not own local reusable workflow implementations. Universal reusable
+  behavior is called from `NWarila/.github`; stack-specific behavior is called
+  from the runner template or framework by immutable SHA.
+- `repo-hygiene.yaml` is the local caller that makes workflow pinning and
+  privileged-trigger policy visible on this data-only runner without adding a
+  local policy tree.
 - Consumer workflow names are caller names (`pr-validation`, `security`,
-  `release`, `drift-gate`, `terraform-deploy`, `auto-merge`), not framework
-  reusable names.
+  `repo-hygiene`, `release`, `drift-gate`, `terraform-deploy`, `auto-merge`),
+  not framework reusable names.
