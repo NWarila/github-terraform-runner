@@ -11,3 +11,5 @@ drift-gate:
     - byte-equality
     - ci-cd
     - devsecops
+  required_checks:
+    - "pytest"

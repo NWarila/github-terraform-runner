@@ -15,3 +15,5 @@ packer-runner-template:
     - hashicorp
     - runner
     - image-building
+  required_checks:
+    - "contract validator"

@@ -11,3 +11,5 @@ powershell-template:
     - devsecops
     - best-practices
     - windows
+  required_checks:
+    - "Pester"

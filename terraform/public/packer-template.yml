@@ -12,3 +12,5 @@ packer-template:
     - best-practices
     - hashicorp
     - image-building
+  required_checks:
+    - "Packer validate"

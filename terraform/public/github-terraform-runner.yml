@@ -9,3 +9,5 @@ github-terraform-runner:
     - ci-cd
     - devsecops
     - automation
+  required_checks:
+    - "validate / Terraform contract"
