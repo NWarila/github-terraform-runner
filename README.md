@@ -1,5 +1,9 @@
 # NWarila/github-terraform-runner
 
+[![PR Validation](https://github.com/NWarila/github-terraform-runner/actions/workflows/pr-validation.yaml/badge.svg)](https://github.com/NWarila/github-terraform-runner/actions/workflows/pr-validation.yaml)
+[![Security](https://github.com/NWarila/github-terraform-runner/actions/workflows/security.yaml/badge.svg)](https://github.com/NWarila/github-terraform-runner/actions/workflows/security.yaml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 GitHub-as-code deployer for the [NWarila](https://github.com/NWarila) GitHub
 user account. Owns repository inventory under `terraform/` and delegates the
 actual `terraform apply` to the
@@ -53,3 +57,9 @@ auto-merge does not wait for CI. Human PRs follow normal review.
 
 The complete gate inventory lives in
 [`docs/reference/quality-gates.md`](docs/reference/quality-gates.md).
+
+## Architecture
+
+The deploy overlay sequence — runner inventory to framework checkout to
+Terraform apply — is documented in
+[`docs/diagrams/deploy-overlay-sequence.mmd`](docs/diagrams/deploy-overlay-sequence.mmd).

@@ -1,0 +1,28 @@
+sequenceDiagram
+    autonumber
+    participant R as github-terraform-runner
+    participant T as terraform-runner-template
+    participant F as github-terraform-framework
+    participant S as AWS S3
+    participant G as GitHub API
+
+    Note over R: Push to main triggers terraform-deploy.yaml
+
+    R->>T: call reusable-terraform-deploy.yaml@SHA
+    T->>F: checkout framework at framework_ref SHA
+    F-->>T: Terraform module checked out
+
+    T->>S: download private repo YAML files<br/>(vars.PRIVATE_REPOS_FILES via private_repos_prefix)
+    S-->>T: Personal.yml, Resume.yml, github-sandbox.yml
+
+    Note over T: Overlay: runner inventory merged into framework workspace
+    T->>T: overlay terraform/public/ => terraform/repos/public/<br/>overlay tests/fixtures/terraform/private/ => terraform/repos/private/
+
+    T->>T: terraform init (S3 backend)
+    T->>T: terraform plan
+
+    Note over T: Apply only on main push (not PR)
+    T->>G: terraform apply<br/>(github_repository, rulesets, CODEOWNERS)
+    G-->>T: resources reconciled
+
+    T-->>R: deploy complete
