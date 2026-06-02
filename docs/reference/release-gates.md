@@ -1,6 +1,10 @@
 # Release Gates
 
-PRs to `main` must pass:
+PRs to `main` run the following checks. They are **expected to be green before
+merge but are advisory, not mechanical merge gates**: this repo has no
+`required_status_checks` ruleset, so a red check does not by itself block merge
+(the Pull Request Gate review rules do). See
+[`quality-gates.md`](quality-gates.md) for the enforcement model.
 
 - `pr-validation.yaml`: calls the pinned
   `NWarila/terraform-runner-template` reusable, overlays this runner's

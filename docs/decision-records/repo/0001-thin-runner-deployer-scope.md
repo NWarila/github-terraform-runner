@@ -56,7 +56,8 @@ This repo owns:
 - private inventory staging under `terraform/private/` and public-safe private
   fixtures under `tests/fixtures/terraform/private/`;
 - workflow callers for validation, drift gate, security, repo hygiene, release,
-  auto-merge, and deploy;
+  auto-merge, and deploy, plus the scheduled org-ADR mirror auto-sync caller
+  (`org-adr-auto-sync.yaml`, documented in `docs/reference/mirroring.md`);
 - deploy-specific secrets, variables, and environment inputs configured in
   GitHub; and
 - repo-specific documentation and ADRs.
@@ -132,8 +133,8 @@ None.
 
 ## Implementing PRs
 
-This ADR is introduced by the documentation-governance extraction PR that also
-realigns the runner callers to the current thin-runner contract.
+This ADR is introduced by PR #47 (the documentation-governance extraction PR that
+also realigns the runner callers to the current thin-runner contract).
 
 ## Related ADRs
 

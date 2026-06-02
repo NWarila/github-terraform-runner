@@ -26,6 +26,10 @@ tests/
 .github/workflows/
   pr-validation.yaml     checks out the pinned framework, overlays this runner's
                          inventory, and runs framework CI
+  drift-gate.yaml        byte-compares org-baseline files (NWarila/.github) and
+                         the runner-template scaffold against pinned sources
+  org-adr-auto-sync.yaml scheduled caller that opens a PR to refresh org-ADR
+                         mirrors on drift (see docs/reference/mirroring.md)
   security.yaml          calls org-owned security reusable workflows by SHA
   repo-hygiene.yaml      calls org-owned workflow policy validation by SHA
   release.yaml           calls org/framework-owned release reusable workflows by SHA
@@ -43,8 +47,9 @@ tests/
 3. After merge, `terraform-deploy.yaml` applies on `main`.
 
 Renovate keeps `framework_ref`, the framework reusable SHA, and the
-runner-template SHA current. Trusted-bot PRs auto-merge once required checks
-pass; human PRs follow normal review.
+runner-template SHA current. Trusted-bot PRs auto-merge once the Pull Request
+Gate review requirements are met; no required status checks are configured, so
+auto-merge does not wait for CI. Human PRs follow normal review.
 
 The complete gate inventory lives in
 [`docs/reference/quality-gates.md`](docs/reference/quality-gates.md).
