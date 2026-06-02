@@ -1,9 +1,0 @@
-terraform-template-template:
-  description: "Abandoned experiment; do not consume. Retained archived for historical PR and review context only."
-  visibility: "public"
-  archived: true
-  archive_on_destroy: true
-  is_template: false
-  topics:
-    - abandoned
-    - archived

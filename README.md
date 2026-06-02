@@ -10,9 +10,8 @@ This repository is a runner under the
 [NWarila/terraform-runner-template](https://github.com/NWarila/terraform-runner-template)
 contract. It contains no Terraform module code of its own; validation,
 contract checks, security scanning, and release evidence are delegated to
-`terraform-runner-template`. Trusted-bot auto-merge is the one local reusable
-workflow exception because it runs under `pull_request_target` and must remain
-fully inspectable by the privileged-workflow static analyzer.
+`terraform-runner-template`, `NWarila/.github`, and
+`github-terraform-framework` by immutable refs.
 
 ## Layout
 
@@ -27,12 +26,10 @@ tests/
 .github/workflows/
   pr-validation.yaml     checks out the pinned framework, overlays this runner's
                          inventory, and runs framework CI
-  security.yaml          calls template-owned security reusable workflows by SHA
-  release.yaml           calls template-owned release reusable workflows by SHA
-  auto-merge.yaml        local privileged auto-merge caller
-  reusable-auto-merge.yaml
-                         local privileged implementation inspected by the
-                         static analyzer
+  security.yaml          calls org-owned security reusable workflows by SHA
+  repo-hygiene.yaml      calls org-owned workflow policy validation by SHA
+  release.yaml           calls org/framework-owned release reusable workflows by SHA
+  auto-merge.yaml        calls org-owned trusted-bot auto-merge by SHA
   terraform-deploy.yaml  plans and applies on main using the framework deploy
                          reusable, AWS OIDC, and repo secrets
 ```

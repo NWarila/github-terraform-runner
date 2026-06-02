@@ -9,6 +9,12 @@ Template-tier ADRs from `terraform-runner-template` are maintained in the
 template repository. This runner can link to them from repo-specific ADRs when
 needed, but it does not carry local copies as enforced runtime surface.
 
+## Repo ADRs
+
+| # | Title | Status | Date |
+| --- | --- | --- | --- |
+| [repo/0001](repo/0001-thin-runner-deployer-scope.md) | Thin Runner Deployer Scope | Accepted | 2026-06-02 |
+
 ## Org-Mirrored Index
 
 | # | Title | Status | Date |

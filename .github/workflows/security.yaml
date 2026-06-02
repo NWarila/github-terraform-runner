@@ -1,7 +1,7 @@
 name: Security
 
-# One visible security entrypoint. Detailed implementations live in
-# terraform-runner-template and are consumed here by immutable SHA.
+# One visible security entrypoint. The detailed implementations stay in local
+# reusable workflows so consumers can pin the same checks by SHA.
 
 on:
   branch_protection_rule:
@@ -27,7 +27,7 @@ jobs:
       contents: read
       security-events: write
       actions: read
-    uses: NWarila/terraform-runner-template/.github/workflows/reusable-iac-security.yaml@f85a0a61b6650c572cf5971abc8b0caa11999087
+    uses: NWarila/.github/.github/workflows/reusable-iac-security.yaml@e7456b0219e8750fbef8bd70a0f1ccf7d47f1c20
 
   codeql:
     name: CodeQL
@@ -35,7 +35,7 @@ jobs:
       contents: read
       security-events: write
       actions: read
-    uses: NWarila/terraform-runner-template/.github/workflows/reusable-codeql.yaml@f85a0a61b6650c572cf5971abc8b0caa11999087
+    uses: NWarila/.github/.github/workflows/reusable-codeql.yaml@e7456b0219e8750fbef8bd70a0f1ccf7d47f1c20
 
   scorecard:
     name: OpenSSF Scorecard
@@ -45,4 +45,4 @@ jobs:
       id-token: write
       actions: read
       contents: read
-    uses: NWarila/terraform-runner-template/.github/workflows/reusable-scorecard.yaml@f85a0a61b6650c572cf5971abc8b0caa11999087
+    uses: NWarila/.github/.github/workflows/reusable-scorecard.yaml@e7456b0219e8750fbef8bd70a0f1ccf7d47f1c20

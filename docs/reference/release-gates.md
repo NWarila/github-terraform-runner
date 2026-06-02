@@ -8,8 +8,10 @@ PRs to `main` must pass:
   framework, then runs the framework quality gate.
 - `drift-gate.yaml`: verifies only byte-identical scaffold files from the
   pinned runner template.
-- `security.yaml`: calls template-owned reusable workflows for IaC scanning,
-  CodeQL, and Scorecard.
+- `security.yaml`: calls org-owned reusable workflows for IaC scanning, CodeQL,
+  and Scorecard.
+- `repo-hygiene.yaml`: calls the org-owned reusable policy check for workflow
+  pinning and privileged-trigger safety.
 
 This repo does not have a local `make ci` gate. The executable Terraform module
 and its tests live in `nwarila-platform/github-terraform-framework`.
