@@ -84,7 +84,6 @@
 !/docs/decision-records/org/0010-keep-ai-attribution-out-of-version-control.md
 !/docs/decision-records/org/0009-classify-baseline-manifest-byte-identity.md
 !/docs/decision-records/org/0004-use-renovate-for-dependency-updates.md
-!/.github/workflows/org-adr-sync.yaml
 !/.github/workflows/org-adr-auto-sync.yaml
 !/docs/reference/diagram-conventions.md
 !/docs/reference/alignment-program-lessons.md
