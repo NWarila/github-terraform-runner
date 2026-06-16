@@ -1,0 +1,16 @@
+ci-workflows:
+  description: "Shared CI-gate reusable workflows for NWarila: the build-image pipeline (build/scan/SBOM/sign/SLSA/push) + per-stack gate reusables + template-sync, consumed by digest."
+  visibility: "public"
+  codeowners: |
+    * @NWarila
+  topics:
+    - github-actions
+    - reusable-workflows
+    - ci-cd
+    - devsecops
+    - supply-chain-security
+    - sigstore
+    - cosign
+    - sbom
+    - slsa
+    - container-images
