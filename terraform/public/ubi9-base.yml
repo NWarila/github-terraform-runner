@@ -1,0 +1,20 @@
+ubi9-base:
+  description: "Shared hardened UBI9 runtime base for NWarila gate images."
+  visibility: "public"
+  codeowners: |
+    * @NWarila
+  topics:
+    - ubi9
+    - rhel9
+    - red-hat
+    - containers
+    - base-image
+    - oci-images
+    - ci-cd
+    - devsecops
+    - supply-chain-security
+    - sbom
+    - provenance
+    - sigstore
+    - cosign
+    - container-hardening
