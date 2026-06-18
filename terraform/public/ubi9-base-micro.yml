@@ -1,0 +1,13 @@
+ubi9-base-micro:
+  description: "Hardened UBI9 micro base image with FIPS, STIG, and SLSA-L3 supply-chain evidence."
+  visibility: "public"
+  is_template: false
+  codeowners: |
+    * @NWarila
+  topics:
+    - ubi9
+    - rhel9
+    - base-image
+    - micro
+    - fips
+    - hardened
