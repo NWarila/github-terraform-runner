@@ -4,6 +4,8 @@ ubi9-application-template:
   is_template: true
   codeowners: |
     * @NWarila
+  advisory_checks:
+    - "template verify"
   topics:
     - ubi9
     - rhel9
