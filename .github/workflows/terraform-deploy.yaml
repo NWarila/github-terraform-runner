@@ -9,13 +9,10 @@ name: Deploy GitHub Terraform
 #   secrets.AWS_S3_BUCKET                   tfstate backend + private-repo source bucket
 #   secrets.FINE_GRAINED_PERSONAL_ACCESS_TOKEN  GH PAT for Terraform
 #
-#   vars.PRIVATE_REPOS_FILES   newline-separated list of private-repo
-#                              filenames to download from S3 before deploy.
-#                              Each line is a bare filename (e.g.
-#                              `Personal.yml`); the reusable derives the S3
-#                              URL via private_repos_prefix below.
-#                              Leave empty to skip S3 fetch entirely (the
-#                              committed `terraform/private/` is still overlaid).
+#   private_repos_prefix       S3 prefix synced before deploy. Matching
+#                              *.yml/*.yaml files are copied into
+#                              terraform/private/ and overlaid with any
+#                              committed private inventory.
 #
 # github_owner is derived from ${{ github.repository_owner }} so the file
 # itself stays identical across the three runners.
@@ -26,7 +23,11 @@ on:
     paths:
       - "terraform/**"
   workflow_dispatch:
-
+    inputs:
+      apply:
+        description: "Run terraform apply (default: plan-only audit)"
+        type: boolean
+        default: false
 permissions:
   contents: read
   id-token: write
@@ -37,18 +38,18 @@ concurrency:
 
 jobs:
   deploy:
-    uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@03677888d93fd6fb31b4577ca0723f2c95f21066
+    uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@a68c333b081613dd3ac170bff114584d4e4d0054
     with:
       github_owner: ${{ github.repository_owner }}
       # Renovate keeps this in lockstep with the uses: SHA above.
       # renovate: depName=nwarila-platform/github-terraform-framework packageName=nwarila-platform/github-terraform-framework currentValue=main
-      framework_ref: 03677888d93fd6fb31b4577ca0723f2c95f21066
+      framework_ref: a68c333b081613dd3ac170bff114584d4e4d0054
       # renovate: datasource=github-releases depName=hashicorp/terraform extractVersion=^v(?<version>.*)$ versioning=hashicorp
       terraform_version: "1.15.4"
-      private_repos_files: ${{ vars.PRIVATE_REPOS_FILES }}
       # Preserve the existing S3 source layout while the runner-local inventory
       # path moves to terraform/private.
       private_repos_prefix: nwarila/github-terraform-runner/repos
+      apply: ${{ github.event_name == 'workflow_dispatch' && inputs.apply || false }}
     secrets:
       aws_role_arn: ${{ secrets.AWS_ROLE_TO_ASSUME }}
       aws_region: ${{ secrets.AWS_REGION }}
