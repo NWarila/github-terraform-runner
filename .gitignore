@@ -57,6 +57,7 @@
 !/docs/decision-records/org/*.md
 !/docs/decision-records/repo/.gitkeep
 !/docs/decision-records/repo/0001-thin-runner-deployer-scope.md
+!/docs/decision-records/repo/0002-configure-required-status-checks-per-repository.md
 !/docs/decision-records/template/.gitkeep
 !/docs/explanation/.gitkeep
 !/docs/explanation/*.md

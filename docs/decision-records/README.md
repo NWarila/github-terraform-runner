@@ -14,6 +14,7 @@ needed, but it does not carry local copies as enforced runtime surface.
 | # | Title | Status | Date |
 | --- | --- | --- | --- |
 | [repo/0001](repo/0001-thin-runner-deployer-scope.md) | Thin Runner Deployer Scope | Accepted | 2026-06-02 |
+| [repo/0002](repo/0002-configure-required-status-checks-per-repository.md) | Configure Required Status Checks Per-Repository | Accepted | 2026-07-12 |
 
 ## Org-Mirrored Index
 
