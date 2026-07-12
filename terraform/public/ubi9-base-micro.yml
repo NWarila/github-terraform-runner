@@ -17,3 +17,20 @@ ubi9-base-micro:
     - micro
     - fips
     - hardened
+  # Opt-in required status checks. The framework injects these contexts into the
+  # Pull Request Gate ruleset (do_not_enforce_on_create=true, non-strict), making
+  # the CI gate suite merge-blocking. Names are the exact check contexts GitHub
+  # reports on pull requests; publish-only jobs (publish signed image, rekor
+  # roll-up, slsa l3 provenance) skip on PRs and are deliberately excluded.
+  required_checks:
+    - "actionlint"
+    - "analyze Python tools"
+    - "build and hardening"
+    - "CodeQL"
+    - "dependency review"
+    - "pre-commit"
+    - "repo contract"
+    - "reproducibility gate (amd64)"
+    - "reproducibility gate (arm64)"
+    - "slsa generator tag integrity"
+    - "zizmor"
