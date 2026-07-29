@@ -16,3 +16,9 @@ ubi9-ansible-runner:
     - hardened
     - supply-chain-security
     - cosign
+  # Opt-in required status checks. The framework injects these contexts into the
+  # Pull Request Gate ruleset, making the CI gate suite merge-blocking. Names are
+  # the exact check contexts GitHub reports on pull requests. Only contexts that
+  # already exist may be listed; a name that never reports would deadlock merges.
+  required_checks:
+    - "pre-commit"
