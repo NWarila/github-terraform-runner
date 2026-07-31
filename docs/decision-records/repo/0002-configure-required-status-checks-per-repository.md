@@ -82,12 +82,15 @@ reasons, and a third that constrains any future work:
 Chosen option: **Option 1, per-repository `required_checks` lists.**
 
 Each repository lists exactly the check contexts it reports on pull requests, and
-only those. For `ubi9-base-micro` that is the eleven contexts that run on every
-pull request (`actionlint`, `analyze Python tools`, `build and hardening`,
-`CodeQL`, `dependency review`, `pre-commit`, `repo contract`,
-`reproducibility gate (amd64)`, `reproducibility gate (arm64)`,
-`slsa generator tag integrity`, `zizmor`); publish-only jobs that skip on pull
-requests are excluded so they cannot deadlock a merge.
+only those. For `ubi9-base-micro` that is the twelve contexts that report on
+every normally scheduled pull-request run (`actionlint`, `analyze Python tools`,
+`build and hardening`, `CodeQL`, `dependency review`, `pre-commit`,
+`python / required`, `repo contract`, `reproducibility gate (amd64)`,
+`reproducibility gate (arm64)`, `slsa generator tag integrity`, `zizmor`). The
+`python / required` reducer reports on every normally scheduled pull-request run,
+while its upstream Python evidence jobs run only when change detection selects
+Python-related paths. Publish-only jobs that skip on pull requests are excluded
+so they cannot deadlock a merge.
 
 ## Pros and Cons of the Options
 
