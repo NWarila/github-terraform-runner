@@ -17,18 +17,18 @@ concurrency:
 
 jobs:
   validate:
-    uses: NWarila/terraform-runner-template/.github/workflows/reusable-terraform-validation.yaml@dc649c7a8f349b147c1ee9de748c606f7e115790
+    uses: NWarila/terraform-runner-template/.github/workflows/reusable-terraform-validation.yaml@16d8412063af8e4fbe6df96067844c51a64a2c69
     with:
       # renovate: datasource=github-releases depName=hashicorp/terraform extractVersion=^v(?<version>.*)$ versioning=hashicorp
       terraform_version: "1.15.4"
       # renovate: depName=NWarila/terraform-runner-template packageName=https://github.com/NWarila/terraform-runner-template currentValue=main
-      template_ref: dc649c7a8f349b147c1ee9de748c606f7e115790
+      template_ref: 16d8412063af8e4fbe6df96067844c51a64a2c69
       mode: runner
       run_contract_check: true
       framework_repo: nwarila-platform/github-terraform-framework
       # Renovate keeps this in lockstep with terraform-deploy.yaml.
       # renovate: depName=nwarila-platform/github-terraform-framework packageName=nwarila-platform/github-terraform-framework currentValue=main
-      framework_ref: a68c333b081613dd3ac170bff114584d4e4d0054
+      framework_ref: 22378bbda8887a7b03dbf6b59950d7097f0e16e9
       overlay_paths: |
         terraform/public => terraform/repos/public
         tests/fixtures/terraform/private => terraform/repos/private

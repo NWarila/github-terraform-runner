@@ -1,8 +1,8 @@
 name: Deploy GitHub Terraform
 
-# Calls nwarila-platform/github-terraform-framework reusable deploy
-# workflow. This file is byte-identical across all three github-terraform-
-# runner repos; per-runner specifics live in repo Variables and Secrets:
+# Calls the nwarila-platform/github-terraform-framework reusable deploy
+# workflow. Per-runner specifics live in this file and in repository Variables
+# and Secrets:
 #
 #   secrets.AWS_ROLE_TO_ASSUME              full IAM role ARN for OIDC
 #   secrets.AWS_REGION                      e.g. us-east-1
@@ -14,8 +14,8 @@ name: Deploy GitHub Terraform
 #                              terraform/private/ and overlaid with any
 #                              committed private inventory.
 #
-# github_owner is derived from ${{ github.repository_owner }} so the file
-# itself stays identical across the three runners.
+# github_owner is derived from ${{ github.repository_owner }}; the reusable
+# workflow and framework revision remain explicitly pinned for this runner.
 
 on:
   push:
@@ -31,6 +31,8 @@ on:
 permissions:
   contents: read
   id-token: write
+  # Required by the reusable workflow's drift issue lifecycle.
+  issues: write
 
 concurrency:
   group: tf-${{ github.event.repository.name }}-${{ github.ref }}
@@ -38,12 +40,12 @@ concurrency:
 
 jobs:
   deploy:
-    uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@a68c333b081613dd3ac170bff114584d4e4d0054
+    uses: nwarila-platform/github-terraform-framework/.github/workflows/reusable-terraform-deploy.yaml@22378bbda8887a7b03dbf6b59950d7097f0e16e9
     with:
       github_owner: ${{ github.repository_owner }}
       # Renovate keeps this in lockstep with the uses: SHA above.
       # renovate: depName=nwarila-platform/github-terraform-framework packageName=nwarila-platform/github-terraform-framework currentValue=main
-      framework_ref: a68c333b081613dd3ac170bff114584d4e4d0054
+      framework_ref: 22378bbda8887a7b03dbf6b59950d7097f0e16e9
       # renovate: datasource=github-releases depName=hashicorp/terraform extractVersion=^v(?<version>.*)$ versioning=hashicorp
       terraform_version: "1.15.4"
       # Preserve the existing S3 source layout while the runner-local inventory
