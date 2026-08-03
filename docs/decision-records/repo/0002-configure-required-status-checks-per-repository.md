@@ -139,11 +139,10 @@ This decision is confirmed when:
   every targeted repository provably emits. Even after standardization a shared
   default is realistic per **family** (the framework/template cluster) rather than
   across the whole account.
-- Related operational note: the framework's secure-by-default `allow_forking =
-  false` for public personal-account repositories is **not persisted by the GitHub
-  API** (the update returns success but the setting stays enabled), so those
-  repositories show a recurring no-op `allow_forking` change on every plan. This
-  is independent of required checks and does not affect them.
+- Related operational note: the framework defaults `allow_forking` to `true` for
+  public repositories. GitHub rejects an explicit `false` value for a public
+  repository, so that value is not a supported desired setting. This is
+  independent of required checks and does not affect them.
 
 ## Assumptions
 
