@@ -29,6 +29,7 @@ ubi9-base-micro:
     - "CodeQL"
     - "dependency review"
     - "pre-commit"
+    - "python / required"
     - "repo contract"
     - "reproducibility gate (amd64)"
     - "reproducibility gate (arm64)"
