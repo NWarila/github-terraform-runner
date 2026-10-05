@@ -29,8 +29,9 @@ The framework supports an opt-in per-repo `required_checks` list in the runner
 inventory (`terraform/public/*.yml`). When present on a repo that carries a
 `pull_request` rule, the framework injects those strings as a
 `required_status_checks` rule on that repo's **Pull Request Gate** ruleset
-(non-strict; `do_not_enforce_on_create = true`). `github-terraform-runner` and
-`ubi9-base-micro` use it today.
+(non-strict; `do_not_enforce_on_create = true`). Eleven of the fifteen public
+inventory files use it today; `ubi9-images` drops its list on 2026-10-05 (see
+the decision outcome), leaving ten.
 
 The natural question is whether this can be a **generic, account-wide rule**
 instead of a list repeated per repository. It cannot, for two independent
@@ -81,15 +82,17 @@ reasons, and a third that constrains any future work:
 
 Chosen option: **Option 1, per-repository `required_checks` lists.**
 
-Each repository lists exactly the check contexts it reports on pull requests, and
-only those. For `ubi9-base-micro` that is the ten contexts that report on every
-admitted, normally scheduled pull-request run targeting `main` (`actionlint`,
-`analyze Python tools`, `build and hardening`, `CodeQL`, `dependency review`,
-`pre-commit`, `python / required`, `repo contract`, `slsa generator tag
-integrity`, `zizmor`). The `python / required` reducer reports on every such run,
-while its upstream Python evidence jobs run only when change detection selects
-Python-related paths. Publish-only jobs that skip on pull requests are excluded
-so they cannot deadlock a merge.
+Each repository lists only check contexts it reports on every pull request,
+never one it does not; the list is a chosen subset, not an inventory.
+`github-terraform-runner`, for example, requires `validate / Terraform contract`.
+`ubi9-images` (renamed from `ubi9-base-micro` on 2026-10-05) listed the ten
+contexts of its previous pipeline; that pipeline was removed when the image
+family was rebuilt, so the list was removed with it. Of the rebuilt repository's
+contexts, `template-drift / run / check` reports on every pull request and the
+build matrix's `<image> (<arch>)` names do not (the build workflow is
+path-filtered). The drift check stays advisory until the repository's gate set
+is designed as one piece, so the list is empty for now. Publish-only jobs that
+skip on pull requests are excluded so they cannot deadlock a merge.
 
 ## Pros and Cons of the Options
 
